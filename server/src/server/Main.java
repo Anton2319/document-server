@@ -30,14 +30,16 @@ public class Main {
         while(true) {
             try {
                 Socket client = server.accept();
-                DataInputStream dis = new DataInputStream(client.getInputStream());
-                String request = (String) dis.readUTF();
+                System.out.println("Обнаружено подключение c "+client.getInetAddress());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                String request = reader.readLine();
+                System.out.println(request);
                 String requestText = request.split("/")[0];;
                 if(requestText.equals("getreceipt")) {
                     DataOutputStream responce = new DataOutputStream(client.getOutputStream());
                     OutputStream fileResponce = client.getOutputStream();
                     String[] requestParams = null;
-                    System.out.println("Задание получено с IP-адреса "+client.getLocalAddress());
+                    System.out.println("Задание получено с IP-адреса "+client.getInetAddress());
                     if(request.split("/").length < 4) {
                         System.out.println("Ошибка запроса - нет или недостаточно параметров");
                     }
@@ -49,18 +51,24 @@ public class Main {
                         documentWorker.generateReceipt(requestParams[1], requestParams[2], requestParams[3]).write(fos);
                         InputStream in = new FileInputStream(file);
                         //Отправляем файл
-                        System.out.println("Отправка данных");
-                        int count;
-                        byte[] buffer = new byte[1048576];
-                        while ((count = in.read(buffer)) > 0)
-                        {
-                            fileResponce.write(buffer, 0, count);
+                        try {
+                            System.out.println("Отправка данных");
+                            int count;
+                            byte[] buffer = new byte[1048576];
+                            while ((count = in.read(buffer)) > 0) {
+                                fileResponce.write(buffer, 0, count);
+                            }
+                            System.out.println("Задание выполнено");
                         }
-                        System.out.println("Задание выполнено");
-                        in.close();
-                        fos.close();
-                        responce.close();
-                        fileResponce.close();
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        finally {
+                            in.close();
+                            fos.close();
+                            responce.close();
+                            fileResponce.close();
+                        }
                     }
                 }
             } catch (Exception e) {

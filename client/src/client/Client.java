@@ -8,12 +8,13 @@ public class Client {
     public static void main(String args[]) {
         DataOutputStream request = null;
         System.out.println("Запуск клиентской части обработчика документов");
-        try (Socket socket = new Socket("89.108.64.70", 3000)) {
+        try (Socket socket = new Socket("127.0.0.1", 4050)) {
             System.out.println("Подключено к серверу обработки документов");
             String requestParameters = "";
             for(int i = 0; i<args.length; i++) {
                 requestParameters = requestParameters+args[i]+"/";
             }
+            System.out.println(requestParameters);
             request = new DataOutputStream(socket.getOutputStream());
             request.writeUTF("getreceipt/"+requestParameters);
             DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));

@@ -17,6 +17,7 @@ public class DocumentWorker {
     }
 
     public XWPFDocument generateReceipt(String contractNum, String date, String companyname) {
+        System.out.println(contractNum+" "+date+" "+companyname);
         try {
             //Создаём документ
             XWPFDocument docxModel = new XWPFDocument();
@@ -35,7 +36,7 @@ public class DocumentWorker {
             //Задаем параметры для заголовка
             mainHeader.setAlignment(ParagraphAlignment.CENTER);
             XWPFRun paragraphConfig = mainHeader.createRun();
-            paragraphConfig.setFontSize(18);
+            paragraphConfig.setFontSize(22);
             paragraphConfig.setBold(true);
             paragraphConfig.setColor("000000");
             paragraphConfig.setText("Счёт "+contractNum+" от "+date);
@@ -44,10 +45,16 @@ public class DocumentWorker {
 
             paragraph1.setAlignment(ParagraphAlignment.CENTER);
             paragraphConfig = paragraph1.createRun();
-            paragraphConfig.setFontSize(12);
+            paragraphConfig.setFontSize(16);
             paragraphConfig.setBold(true);
             paragraphConfig.setColor("000000");
             paragraphConfig.setText("Образец заполнения платежного поручения");
+
+            XWPFParagraph paragraph1_1 = docxModel.createParagraph();
+
+            paragraph1.setAlignment(ParagraphAlignment.CENTER);
+            paragraphConfig = paragraph1.createRun();
+            paragraphConfig.setFontSize(16);
 
             //Создаем таблицу с образцом заполнения платежного поручения
             XWPFTable payExample = docxModel.createTable();
@@ -67,28 +74,46 @@ public class DocumentWorker {
             payExample.getRow(0).addNewTableCell().setText("40702810700240000028");
             payExample.createRow();
             payExample.getRow(1).getCell(0).setText("Банк получателя" +
-                    "Г. НИЖНИЙ НОВГОРОД");
+                    " г. НИЖНИЙ НОВГОРОД");
             payExample.getRow(1).getCell(1).setText("БИК" +
-                    "кор.сч №");
+                    " кор.сч №");
+
+            XWPFParagraph paragraph2_1 = docxModel.createParagraph();
+
+            paragraph1.setAlignment(ParagraphAlignment.CENTER);
+            paragraphConfig = paragraph1.createRun();
+            paragraphConfig.setFontSize(22);
 
             XWPFParagraph paragraph2 = docxModel.createParagraph();
 
             paragraph2.setAlignment(ParagraphAlignment.CENTER);
             paragraphConfig = paragraph2.createRun();
-            paragraphConfig.setFontSize(12);
+            paragraphConfig.setFontSize(22);
             paragraphConfig.setBold(true);
             paragraphConfig.setColor("000000");
             paragraphConfig.setText("Наименование платежа: оплата по договору №100500 от "+date);
+
+            XWPFParagraph paragraph2_2 = docxModel.createParagraph();
+
+            paragraph1.setAlignment(ParagraphAlignment.CENTER);
+            paragraphConfig = paragraph1.createRun();
+            paragraphConfig.setFontSize(22);
 
             XWPFParagraph paragraph3 = docxModel.createParagraph();
 
             paragraph3.setAlignment(ParagraphAlignment.CENTER);
             paragraphConfig = paragraph3.createRun();
-            paragraphConfig.setFontSize(8);
+            paragraphConfig.setFontSize(16);
             paragraphConfig.setBold(true);
             paragraphConfig.setColor("000000");
             paragraphConfig.setText("Плательщик ООО фирма \""+companyname+"\"" +
                     "Основание: договор на поставку газа №100500");
+
+            XWPFParagraph paragraph3_1 = docxModel.createParagraph();
+
+            paragraph1.setAlignment(ParagraphAlignment.CENTER);
+            paragraphConfig = paragraph1.createRun();
+            paragraphConfig.setFontSize(16);
 
             XWPFTable receiptTable = docxModel.createTable();
             receiptTable.setTopBorder(XWPFTable.XWPFBorderType.SINGLE, 4, 2,"000000");
@@ -122,11 +147,17 @@ public class DocumentWorker {
             receiptTable.getRow(7).getCell(0).setText("Итого:");
             receiptTable.getRow(7).getCell(1).setText("Очень много");
 
+            XWPFParagraph paragraph4_1 = docxModel.createParagraph();
+
+            paragraph1.setAlignment(ParagraphAlignment.CENTER);
+            paragraphConfig = paragraph1.createRun();
+            paragraphConfig.setFontSize(16);
+
             XWPFParagraph paragraph4 = docxModel.createParagraph();
 
             paragraph4.setAlignment(ParagraphAlignment.CENTER);
             paragraphConfig = paragraph4.createRun();
-            paragraphConfig.setFontSize(14);
+            paragraphConfig.setFontSize(16);
             paragraphConfig.setBold(true);
             paragraphConfig.setColor("000000");
             paragraphConfig.setText("В платежном поручении ссылка на номер договора обязательна!");
